@@ -1,0 +1,27 @@
+name: Generate Snake Contribution
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs every day at midnight UTC
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Platane/snk@v3
+        id: snake-gif
+        with:
+          github_user_name: KoushikLodagala # <-- IMPORTANT: REPLACE THIS with your exact GitHub username!
+          outputs: |
+            ./github-contribution-grid-snake.svg
+            ./github-contribution-grid-snake.gif
+            ./github-contribution-grid-snake-dark.svg
+            ./github-contribution-grid-snake-dark.gif
+      - uses: crazy-max/ghaction-github-pages@v2.6.0
+        with:
+          target_branch: output # This will create a new branch named 'output'
+          build_dir: .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
